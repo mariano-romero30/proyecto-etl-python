@@ -1,11 +1,18 @@
-# Ignorar base de datos local
+# Archivos de bases de datos y reportes
 *.db
-
-# Ignorar archivos de Excel de reportes
 *.xlsx
 
-# Ignorar archivos temporales
+# Archivos temporales de Python
 *.pyc
 __pycache__/
 
+# Variables de entorno
 .env
+
+# Archivos de configuración de sistema operativo (opcional)
+*.DS_Store
+Thumbs.db
+
+# Carpeta virtualenv (si la usás)
+venv/
+.env/
