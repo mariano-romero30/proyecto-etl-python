@@ -7,3 +7,5 @@
 # Ignorar archivos temporales
 *.pyc
 __pycache__/
+
+.env

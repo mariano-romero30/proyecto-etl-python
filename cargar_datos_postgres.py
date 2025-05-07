@@ -1,33 +1,28 @@
 import psycopg2
+import os
+from dotenv import load_dotenv
 import pandas as pd
 
-# Conexión a PostgreSQL
+load_dotenv()
+
 conexion = psycopg2.connect(
-    host="mainline.proxy.rlwy.net",
-    user="postgres",
-    password="aMXOyaWISfYRCwepuGzYhixwRCzqqKZe",
-    dbname="railway",
-    port=52657
+    host=os.getenv("PGHOST"),
+    database=os.getenv("PGDATABASE"),
+    user=os.getenv("PGUSER"),
+    password=os.getenv("PGPASSWORD")
 )
 
+df = pd.read_csv("ventas.csv")
+
 cursor = conexion.cursor()
-
-# Leer CSV
-df = pd.read_csv("productos_ecommerce.csv")
-
-# Insertar datos (sin usar la columna id)
 for _, fila in df.iterrows():
     cursor.execute("""
-        INSERT INTO productos (nombre, precio, stock, categoria)
+        INSERT INTO ventas (producto, cantidad, precio, fecha)
         VALUES (%s, %s, %s, %s)
-    """, (
-        fila["nombre"],
-        float(fila["precio"]),
-        int(fila["stock"]),
-        fila["categoria"]
-    ))
+    """, (fila["producto"], fila["cantidad"], fila["precio"], fila["fecha"]))
 
 conexion.commit()
+cursor.close()
 conexion.close()
 
 print("📦 Datos cargados exitosamente en PostgreSQL.")

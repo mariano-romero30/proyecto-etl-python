@@ -1,17 +1,22 @@
 import psycopg2
+import os
+from dotenv import load_dotenv
 
-# Conexión a tu base de datos
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
+
+# Conexión segura a la base de datos usando variables del entorno
 conexion = psycopg2.connect(
-    host="mainline.proxy.rlwy.net",
-    port=52657,
-    dbname="railway",
-    user="postgres",
-    password="aMXOyaWISfYRCwepuGzYhixwRCzqqKZe"
+    host=os.getenv("PGHOST"),
+    port=os.getenv("PGPORT"),
+    dbname=os.getenv("PGDATABASE"),
+    user=os.getenv("PGUSER"),
+    password=os.getenv("PGPASSWORD")
 )
 
 cursor = conexion.cursor()
 
-# Crear la tabla 'ventas'
+# Crear la tabla 'ventas' si no existe
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS ventas (
         id SERIAL PRIMARY KEY,
