@@ -15,4 +15,3 @@ Thumbs.db
 
 # Carpeta virtualenv (si la usás)
 venv/
-.env/
